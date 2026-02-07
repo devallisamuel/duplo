@@ -1,0 +1,434 @@
+{
+  "info": {
+    "name": "Bookmark Manager API",
+    "description": "Complete API collection for Bookmark Manager with JWT authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/v1",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "bookmark_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "folder_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.access_token);",
+                  "    pm.collectionVariables.set('user_id', response.user.id);",
+                  "    console.log('JWT Token saved:', response.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Register a new user and receive JWT token"
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.access_token);",
+                  "    pm.collectionVariables.set('user_id', response.user.id);",
+                  "    console.log('JWT Token saved:', response.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login with existing credentials and receive JWT token"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Folders",
+      "item": [
+        {
+          "name": "Create Folder",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('folder_id', response.id);",
+                  "    console.log('Folder ID saved:', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Work Resources\",\n  \"description\": \"Important work-related bookmarks\",\n  \"color\": \"#3B82F6\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/folders",
+              "host": ["{{base_url}}"],
+              "path": ["folders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Folders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/folders",
+              "host": ["{{base_url}}"],
+              "path": ["folders"]
+            },
+            "description": "Get all folders for the authenticated user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Folder by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/folders/{{folder_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["folders", "{{folder_id}}"]
+            },
+            "description": "Get a specific folder by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Folder",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Work Resources\",\n  \"description\": \"Updated description\",\n  \"color\": \"#10B981\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/folders/{{folder_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["folders", "{{folder_id}}"]
+            },
+            "description": "Update an existing folder"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Folder",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/folders/{{folder_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["folders", "{{folder_id}}"]
+            },
+            "description": "Delete a folder"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bookmarks",
+      "item": [
+        {
+          "name": "Create Bookmark",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('bookmark_id', response.id);",
+                  "    console.log('Bookmark ID saved:', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"NestJS Documentation\",\n  \"url\": \"https://docs.nestjs.com\",\n  \"description\": \"Official NestJS documentation\",\n  \"tags\": [\"nestjs\", \"documentation\", \"backend\"],\n  \"folderId\": \"{{folder_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookmarks",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks"]
+            },
+            "description": "Create a new bookmark"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Bookmarks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookmarks",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks"]
+            },
+            "description": "Get all bookmarks for the authenticated user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Bookmarks with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookmarks?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get bookmarks with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Search Bookmarks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookmarks?search=nestjs",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "nestjs"
+                }
+              ]
+            },
+            "description": "Search bookmarks by title, description, or URL"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Bookmarks by Folder",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookmarks?folderId={{folder_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks"],
+              "query": [
+                {
+                  "key": "folderId",
+                  "value": "{{folder_id}}"
+                }
+              ]
+            },
+            "description": "Get bookmarks filtered by folder"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Bookmarks by Tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookmarks?tags=nestjs,documentation",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks"],
+              "query": [
+                {
+                  "key": "tags",
+                  "value": "nestjs,documentation"
+                }
+              ]
+            },
+            "description": "Get bookmarks filtered by tags (comma-separated)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Bookmark by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookmarks/{{bookmark_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks", "{{bookmark_id}}"]
+            },
+            "description": "Get a specific bookmark by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Bookmark",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated NestJS Docs\",\n  \"description\": \"Updated description\",\n  \"tags\": [\"nestjs\", \"documentation\", \"typescript\", \"backend\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookmarks/{{bookmark_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks", "{{bookmark_id}}"]
+            },
+            "description": "Update an existing bookmark"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Bookmark",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookmarks/{{bookmark_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["bookmarks", "{{bookmark_id}}"]
+            },
+            "description": "Delete a bookmark"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
