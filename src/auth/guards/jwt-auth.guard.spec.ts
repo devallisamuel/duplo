@@ -23,12 +23,14 @@ describe('JwtAuthGuard', () => {
         getClass: jest.fn(),
       } as unknown as ExecutionContext;
 
-      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(true);
+      const getAllAndOverrideSpy = jest
+        .spyOn(reflector, 'getAllAndOverride')
+        .mockReturnValue(true);
 
       const result = guard.canActivate(mockContext);
 
       expect(result).toBe(true);
-      expect(reflector.getAllAndOverride).toHaveBeenCalledWith(IS_PUBLIC_KEY, [
+      expect(getAllAndOverrideSpy).toHaveBeenCalledWith(IS_PUBLIC_KEY, [
         mockContext.getHandler(),
         mockContext.getClass(),
       ]);

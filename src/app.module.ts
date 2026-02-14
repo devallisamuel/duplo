@@ -41,25 +41,33 @@ import { Folder } from './folders/entities/folder.entity';
     // Logging
     WinstonModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: (_configService: ConfigService) => ({
         transports: [
           new winston.transports.Console({
             format: winston.format.combine(
               winston.format.timestamp(),
               winston.format.colorize(),
-              winston.format.printf(({ timestamp, level, message, context }) => {
-                return `${timestamp} [${context}] ${level}: ${message}`;
-              }),
+              winston.format.printf(
+                ({ timestamp, level, message, context }) => {
+                  return `${String(timestamp)} [${String(context)}] ${String(level)}: ${String(message)}`;
+                },
+              ),
             ),
           }),
           new winston.transports.File({
             filename: 'logs/error.log',
             level: 'error',
-            format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+            format: winston.format.combine(
+              winston.format.timestamp(),
+              winston.format.json(),
+            ),
           }),
           new winston.transports.File({
             filename: 'logs/combined.log',
-            format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+            format: winston.format.combine(
+              winston.format.timestamp(),
+              winston.format.json(),
+            ),
           }),
         ],
       }),

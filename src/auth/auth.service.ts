@@ -37,7 +37,9 @@ export class AuthService {
         },
       };
     } catch (error) {
-      this.logger.error(`Registration error: ${error.message}`);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Registration error: ${errorMessage}`);
       throw error;
     }
   }
@@ -80,14 +82,18 @@ export class AuthService {
         if (error instanceof UnauthorizedException) {
           throw error;
         }
-        this.logger.error(`Password validation error: ${error.message}`);
+        const errorMessage =
+          error instanceof Error ? error.message : 'Unknown error';
+        this.logger.error(`Password validation error: ${errorMessage}`);
         throw new InternalServerErrorException('Login failed');
       }
     } catch (error) {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      this.logger.error(`Login error: ${error.message}`);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Login error: ${errorMessage}`);
       throw new InternalServerErrorException('Login failed');
     }
   }
@@ -96,9 +102,10 @@ export class AuthService {
     try {
       return await this.usersService.findById(userId);
     } catch (error) {
-      this.logger.error(`User validation error: ${error.message}`);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`User validation error: ${errorMessage}`);
       throw new UnauthorizedException('Invalid token');
     }
   }
 }
-

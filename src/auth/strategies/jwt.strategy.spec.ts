@@ -7,7 +7,6 @@ import { AuthService } from '../auth.service';
 describe('JwtStrategy', () => {
   let strategy: JwtStrategy;
   let authService: AuthService;
-  let configService: ConfigService;
 
   const mockAuthService = {
     validateUser: jest.fn(),
@@ -55,7 +54,7 @@ describe('JwtStrategy', () => {
       const result = await strategy.validate(payload);
 
       expect(result).toEqual(user);
-      expect(authService.validateUser).toHaveBeenCalledWith('user-1');
+      expect(mockAuthService.validateUser).toHaveBeenCalledWith('user-1');
     });
 
     it('should throw UnauthorizedException when validation fails', async () => {
@@ -71,4 +70,3 @@ describe('JwtStrategy', () => {
     });
   });
 });
-

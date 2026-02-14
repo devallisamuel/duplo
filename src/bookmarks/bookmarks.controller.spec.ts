@@ -79,8 +79,11 @@ describe('BookmarksController', () => {
       const result = await controller.create(mockUser, createDto);
 
       expect(result).toEqual(mockBookmark);
-      expect(service.create).toHaveBeenCalledWith(mockUser.id, createDto);
-      expect(service.create).toHaveBeenCalledTimes(1);
+      expect(mockBookmarksService.create).toHaveBeenCalledWith(
+        mockUser.id,
+        createDto,
+      );
+      expect(mockBookmarksService.create).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -104,8 +107,11 @@ describe('BookmarksController', () => {
       const result = await controller.findAll(mockUser, queryDto);
 
       expect(result).toEqual(expectedResult);
-      expect(service.findAll).toHaveBeenCalledWith(mockUser.id, queryDto);
-      expect(service.findAll).toHaveBeenCalledTimes(1);
+      expect(mockBookmarksService.findAll).toHaveBeenCalledWith(
+        mockUser.id,
+        queryDto,
+      );
+      expect(mockBookmarksService.findAll).toHaveBeenCalledTimes(1);
     });
   });
 

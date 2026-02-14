@@ -15,7 +15,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
           expiresIn: configService.get<string>('JWT_EXPIRATION', '7d'),
@@ -36,4 +36,3 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
   exports: [AuthService],
 })
 export class AuthModule {}
-
