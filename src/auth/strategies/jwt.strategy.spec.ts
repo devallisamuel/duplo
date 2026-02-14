@@ -6,7 +6,6 @@ import { AuthService } from '../auth.service';
 
 describe('JwtStrategy', () => {
   let strategy: JwtStrategy;
-  let authService: AuthService;
 
   const mockAuthService = {
     validateUser: jest.fn(),
@@ -32,8 +31,6 @@ describe('JwtStrategy', () => {
     }).compile();
 
     strategy = module.get<JwtStrategy>(JwtStrategy);
-    authService = module.get<AuthService>(AuthService);
-    configService = module.get<ConfigService>(ConfigService);
   });
 
   afterEach(() => {
