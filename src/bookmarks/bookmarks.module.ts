@@ -10,4 +10,3 @@ import { Bookmark } from './entities/bookmark.entity';
   providers: [BookmarksService],
 })
 export class BookmarksModule {}
-

@@ -10,4 +10,3 @@ import { Folder } from './entities/folder.entity';
   providers: [FoldersService],
 })
 export class FoldersModule {}
-

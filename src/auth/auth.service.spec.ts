@@ -64,7 +64,11 @@ describe('AuthService', () => {
   describe('login', () => {
     it('should login successfully with valid credentials', async () => {
       const loginDto = { email: 'test@example.com', password: 'password123' };
-      const user = { id: '1', email: loginDto.email, password: 'hashedPassword' };
+      const user = {
+        id: '1',
+        email: loginDto.email,
+        password: 'hashedPassword',
+      };
       const token = 'jwt-token';
 
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(user as any);
@@ -81,18 +85,25 @@ describe('AuthService', () => {
 
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
 
-      await expect(service.login(loginDto)).rejects.toThrow(UnauthorizedException);
+      await expect(service.login(loginDto)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
 
     it('should throw UnauthorizedException for invalid password', async () => {
       const loginDto = { email: 'test@example.com', password: 'wrongPassword' };
-      const user = { id: '1', email: loginDto.email, password: 'hashedPassword' };
+      const user = {
+        id: '1',
+        email: loginDto.email,
+        password: 'hashedPassword',
+      };
 
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(user as any);
       jest.spyOn(usersService, 'validatePassword').mockResolvedValue(false);
 
-      await expect(service.login(loginDto)).rejects.toThrow(UnauthorizedException);
+      await expect(service.login(loginDto)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 });
-

@@ -41,4 +41,3 @@ export class Folder {
   @UpdateDateColumn()
   updatedAt: Date;
 }
-

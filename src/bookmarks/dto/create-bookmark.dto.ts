@@ -35,4 +35,3 @@ export class CreateBookmarkDto {
   @IsOptional()
   folderId?: string;
 }
-

@@ -10,7 +10,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { BookmarksService } from './bookmarks.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { UpdateBookmarkDto } from './dto/update-bookmark.dto';
@@ -27,8 +32,14 @@ export class BookmarksController {
   @Post()
   @ApiOperation({ summary: 'Create a new bookmark' })
   @ApiResponse({ status: 201, description: 'Bookmark created successfully' })
-  @ApiResponse({ status: 409, description: 'Bookmark with this URL already exists' })
-  create(@CurrentUser() user: User, @Body() createBookmarkDto: CreateBookmarkDto) {
+  @ApiResponse({
+    status: 409,
+    description: 'Bookmark with this URL already exists',
+  })
+  create(
+    @CurrentUser() user: User,
+    @Body() createBookmarkDto: CreateBookmarkDto,
+  ) {
     return this.bookmarksService.create(user.id, createBookmarkDto);
   }
 
@@ -68,4 +79,3 @@ export class BookmarksController {
     return this.bookmarksService.remove(user.id, id);
   }
 }
-

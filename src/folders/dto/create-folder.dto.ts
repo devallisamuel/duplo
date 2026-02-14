@@ -17,4 +17,3 @@ export class CreateFolderDto {
   @IsOptional()
   color?: string;
 }
-

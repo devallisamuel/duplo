@@ -19,7 +19,10 @@ export class FoldersService {
     private readonly folderRepository: Repository<Folder>,
   ) {}
 
-  async create(userId: string, createFolderDto: CreateFolderDto): Promise<Folder> {
+  async create(
+    userId: string,
+    createFolderDto: CreateFolderDto,
+  ): Promise<Folder> {
     try {
       const folder = this.folderRepository.create({
         ...createFolderDto,
@@ -123,4 +126,3 @@ export class FoldersService {
     }
   }
 }
-
